@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.vmware.chuanl.howoldofyourface.DetectActivity">
+
+    <Button
+        android:id="@+id/btn_detect_face"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Detect"
+        android:layout_alignParentBottom="true"/>
+
+    <ImageView
+        android:id="@+id/img_detect_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ab"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/btn_detect_face"/>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_loading"
+        android:visibility="invisible">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_age_and_gender"
+            android:visibility="invisible"
+            android:drawableLeft="@drawable/icon_male"
+            android:textColor="#ffff00ff"
+            android:text="123"
+            android:textSize="22sp"
+            android:gravity="center"/>
+    </FrameLayout>
+
+</RelativeLayout>
