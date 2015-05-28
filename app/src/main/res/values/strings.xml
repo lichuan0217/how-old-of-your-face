@@ -3,6 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_start">StartActivity</string>
-    <string name="title_activity_detect">DetectActivity</string>
+    <string name="title_activity_start">How Old Of Your Face</string>
+    <string name="title_activity_detect">Age Detect</string>
 </resources>

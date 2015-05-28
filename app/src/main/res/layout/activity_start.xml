@@ -4,26 +4,62 @@
     android:layout_height="match_parent"
     tools:context="com.vmware.chuanl.howoldofyourface.StartActivity">
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="How Old Of Your Face"
-        android:textSize="24sp"/>
-
     <Button
-        android:layout_alignParentBottom="true"
         android:id="@+id/btn_from_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Camera"/>
+        android:layout_alignParentBottom="true"
+        android:text="Camera" />
 
     <Button
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:id="@+id/btn_from_gallary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gallary"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Gallary" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_from_camera"
+        android:layout_margin="10dp"
+        android:background="@color/material_blue_grey_800"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageSwitcher
+                android:id="@+id/image_switcher_demo_pic"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_indicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"/>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_use_demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use this Photo" />
+
+    </LinearLayout>
 
 </RelativeLayout>

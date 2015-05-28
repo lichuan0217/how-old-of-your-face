@@ -37,21 +37,26 @@ public class DetectActivity extends ActionBarActivity implements View.OnClickLis
     private Button mDetectButton;
     private FrameLayout mLoading;
     private Paint mPaint;
+    private boolean isUseNativePic = false;
+    private int mNativeIndex = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect);
 
-        if(getIntent() != null) {
+        if (getIntent() != null) {
             Intent intent = getIntent();
             mPhotoStr = intent.getStringExtra("photo");
+            mNativeIndex = intent.getIntExtra("NativePicture", StartActivity.mImgIds.length);
+            isUseNativePic = !(mNativeIndex == StartActivity.mImgIds.length);
         }
 
         mPaint = new Paint();
-        mDetectButton = (Button)findViewById(R.id.btn_detect_face);
+        mDetectButton = (Button) findViewById(R.id.btn_detect_face);
         mDetectButton.setOnClickListener(this);
-        mLoading = (FrameLayout)findViewById(R.id.fragment_loading);
-        mDetectImage = (ImageView)findViewById(R.id.img_detect_photo);
+        mLoading = (FrameLayout) findViewById(R.id.fragment_loading);
+        mDetectImage = (ImageView) findViewById(R.id.img_detect_photo);
         resizePhoto();
         mDetectImage.setImageBitmap(mPhotoImgBitmap);
     }
@@ -60,18 +65,24 @@ public class DetectActivity extends ActionBarActivity implements View.OnClickLis
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
 
-        BitmapFactory.decodeFile(mPhotoStr, options);
+        if (isUseNativePic)
+            BitmapFactory.decodeResource(getResources(), StartActivity.mImgIds[mNativeIndex], options);
+        else
+            BitmapFactory.decodeFile(mPhotoStr, options);
 
         double ratio = Math.max(options.outWidth * 1.0d / 1024, options.outHeight * 1.0d / 1024);
         options.inSampleSize = (int) Math.ceil(ratio);
         options.inJustDecodeBounds = false;
-        mPhotoImgBitmap = BitmapFactory.decodeFile(mPhotoStr, options);
+        if (isUseNativePic)
+            mPhotoImgBitmap = BitmapFactory.decodeResource(getResources(), StartActivity.mImgIds[mNativeIndex], options);
+        else
+            mPhotoImgBitmap = BitmapFactory.decodeFile(mPhotoStr, options);
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_detect_face:
                 mLoading.setVisibility(View.VISIBLE);
                 FaceDetect.decect(mPhotoImgBitmap, new FaceDetect.CallBack() {
@@ -95,7 +106,7 @@ public class DetectActivity extends ActionBarActivity implements View.OnClickLis
         }
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mLoading.setVisibility(View.GONE);
@@ -164,13 +175,13 @@ public class DetectActivity extends ActionBarActivity implements View.OnClickLis
                 Log.d("TAG", bitmap.getWidth() + "");
                 Log.d("TAG", mDetectImage.getWidth() + "");
                 Log.d("TAG", ageBitmap.getWidth() + "");
-                if(bitmap.getWidth() < mDetectImage.getWidth() && bitmap.getHeight() < mDetectImage.getHeight()){
+                if (bitmap.getWidth() < mDetectImage.getWidth() && bitmap.getHeight() < mDetectImage.getHeight()) {
                     float ratio = Math.max(
                             bitmap.getWidth() * 1.0f / mDetectImage.getWidth(),
                             bitmap.getHeight() * 1.0f / mDetectImage.getHeight()
                     );
 
-                    ageBitmap = Bitmap.createScaledBitmap(ageBitmap, (int)(ageWidth * ratio), (int)(ageHeight * ratio), false);
+                    ageBitmap = Bitmap.createScaledBitmap(ageBitmap, (int) (ageWidth * ratio), (int) (ageHeight * ratio), false);
                 }
 
                 canvas.drawBitmap(ageBitmap, x - ageBitmap.getWidth() / 2, y - h / 2 - ageBitmap.getHeight(), null);
@@ -181,12 +192,12 @@ public class DetectActivity extends ActionBarActivity implements View.OnClickLis
         }
     }
 
-    private Bitmap buildAgeBitmap(int age, boolean isMale){
-        TextView tv = (TextView)mLoading.findViewById(R.id.tv_age_and_gender);
+    private Bitmap buildAgeBitmap(int age, boolean isMale) {
+        TextView tv = (TextView) mLoading.findViewById(R.id.tv_age_and_gender);
         tv.setText(age + "");
-        if(isMale){
+        if (isMale) {
             tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_male), null, null, null);
-        }else {
+        } else {
             tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_female), null, null, null);
         }
 
